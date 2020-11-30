@@ -1,5 +1,5 @@
 from tkinter import *
-import math, random
+import math, random,os
 from tkinter import messagebox
 class Bill_App:
     def __init__(self,root):
@@ -45,7 +45,6 @@ class Bill_App:
         self.billNO=StringVar()
         x=random.randint(1000,9999)
         self.billNO.set(str(x))
-        self.cussrch=StringVar()
     
 
 
@@ -68,7 +67,7 @@ class Bill_App:
         cusbill=Label(F1,text="Bill Number",bg=bgcolor,fg="white",font=('times new roman',18,'bold')).grid(row=0,column=4,padx=20,pady=5)
         cusbilltxt=Entry(F1,width=15,textvariable=self.billNO,bd=7,relief=SUNKEN,font=('times new roman',15)).grid(row=0,column=5,padx=10,pady=5)
         
-        Search_btn=Button(F1,width=10,bd=7,text="Search",font=('times new roman',12,'bold')).grid(row=0,column=6,pady=10,padx=10)
+        Search_btn=Button(F1,width=10,bd=7,command=self.findBill,text="Search",font=('times new roman',12,'bold')).grid(row=0,column=6,pady=10,padx=10)
     #=======Cosmetic Frame======
         F2=LabelFrame(self.root,bd=10,relief=GROOVE,text="Cousmetics",font=('times new roman',15,'bold'),fg='gold',bg=bgcolor)
         F2.place(x=5,y=180,width=325,height=380)
@@ -172,8 +171,8 @@ class Bill_App:
 
         total_btn=Button(btn1,command=self.total,text='Total',bg='cadetblue',fg='black',font=('arial',15,'bold'),pady=15,width=9).grid(row=0,column=0,padx=5,pady=5)
         gen_btn=Button(btn1,text='Genrate bill',command=self.billArea,bg='cadetblue',fg='black',font=('arial',15,'bold'),pady=15,width=9).grid(row=0,column=1,padx=5,pady=5)
-        Clear_btn=Button(btn1,text='clear',bg='cadetblue',fg='black',font=('arial',15,'bold'),pady=15,width=9).grid(row=0,column=2,padx=5,pady=5)
-        Exit_btn=Button(btn1,text='Exit',bg='cadetblue',fg='black',font=('arial',15,'bold'),pady=15,width=9).grid(row=0,column=3,padx=5,pady=5)
+        Clear_btn=Button(btn1,text='clear',command=self.clearData,bg='cadetblue',fg='black',font=('arial',15,'bold'),pady=15,width=9).grid(row=0,column=2,padx=5,pady=5)
+        Exit_btn=Button(btn1,text='Exit',bg='cadetblue',command=self.Exit,fg='black',font=('arial',15,'bold'),pady=15,width=9).grid(row=0,column=3,padx=5,pady=5)
         self.welcome()
     def total(self):
         
@@ -313,15 +312,74 @@ class Bill_App:
             txt.close()
         else:
             return   
+    def findBill(self):
+        lenOfBill=1
+        for i in os.listdir("Bills/"):
+            if i.split('.')[0]==self.billNO.get():
+                lenOfBill=len(os.listdir("Bills/"))
+                txt=open(f'Bills/{i}',"r")
+                self.txtarea.delete('1.0',END)
+                for d in txt:
+                    self.txtarea.insert(END,d)
+                txt.close()
+            lenOfBill+=1
+                
+            print(lenOfBill)   
+            if lenOfBill==len(os.listdir("Bills/")):
 
+                messagebox.showerror("fileError","BILL not found")
+    def clearData(self):
+    #====cosmetic variabls====
+        self.soap.set(0)
+        self.face_cream.set(0)
+        self.face_wash.set(0)
+        self.loashan.set(0)
+        self.hairc.set(0)
+        self.gel.set(0)
         
-        
-        
-                                                   
-                                                   
-                                                   
-                                            
+    #====Grocery variabls====   
+        self.rice.set(0)
+        self.oil.set(0)
+        self.wheat.set(0)
+        self.daal.set(0)
+        self.sugar.set(0)
+        self.tea.set(0)
+    #====cooldrinks variabls====
+        self.maza.set(0)
+        self.frooti.set(0)
+        self.thumbsUP.set(0)
+        self.sprite.set(0)
+        self.Up.set(0)
+        self.mountaindew.set(0)
+    #====total price===
+        self.cosmeticPrice.set(0)
+        self.groceryPrice.set(0)
+        self.cooldrinksPrice.set(0)
+    #====total price===
+        self.cosmetictax.set(0)
+        self.grocerytax.set(0)
+        self.cooldrinkstax.set(0)
+    #====customer===
+        self.cusName.set("") 
+        self.cusNum.set("") 
 
+        self.billNO.set('')
+        x=random.randint(1000,9999)
+        self.billNO.set(str(x))
+        self.welcome()
+    def Exit(self):
+        app=messagebox.askyesno('exit',"Do you really want to exit..?")
+
+        if app>0 :
+            self.root.destroy()
+
+
+    
+
+
+
+
+                                                          
 root = Tk()
 obj=Bill_App(root)
 root.mainloop()
