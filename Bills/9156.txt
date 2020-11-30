@@ -1,0 +1,13 @@
+	 WELCOME TO STORE
+
+ Bill no :9156
+ customer name: 11aa1
+ phone no: 1aa1
+============================
+items	   QTY	      Price
+============================
+Mountaindew	1	      45
+____________________________
+ Drinks tax   2.25
+____________________________
+ Total        Rs.47.25
